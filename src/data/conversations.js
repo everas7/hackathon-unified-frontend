@@ -181,7 +181,7 @@ const conversations = [
     },
     {
         contact: {
-            conversationRead: true,
+            conversationRead: false,
             contactId: 12348,
             firstName: 'Ivo',
             lastName: 'Haris',

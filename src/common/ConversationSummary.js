@@ -34,13 +34,21 @@ const ChannelLabel = ({ documentType, style }) => {
 const Conversation = ({
     containerStyle,
     conversationRead,
+    conversationSelected,
     date,
     documentType,
     message,
     name,
     onSelect,
 }) => (
-    <TouchableOpacity onPress={onSelect} style={[styles.container, containerStyle]}>
+    <TouchableOpacity
+        onPress={onSelect}
+        style={[
+            styles.container,
+            conversationSelected ? { backgroundColor: 'rgba(0,0,0,0.07)' } : undefined,
+            containerStyle
+        ]}
+    >
         <View>
             <View style={[styles.dot, { opacity: conversationRead ? 0 : 1 }]} />
         </View>
@@ -67,6 +75,7 @@ const ConversationSummary = ({
         primaryEmailAddress,
         primaryPhoneNumber,
     },
+    conversationSelected,
     message: {
         documentType,
         messageBody,
@@ -85,6 +94,7 @@ const ConversationSummary = ({
 
     const conversationProps = {
         conversationRead,
+        conversationSelected,
         date,
         documentType,
         message: messageBody,
