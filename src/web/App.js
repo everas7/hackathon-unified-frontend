@@ -1,12 +1,13 @@
 // App.js - WEB
 import React, { useCallback, useEffect, useState } from "react";
+import { Dimensions, View, Text, ScrollView, Button } from "react-native";
 import StyleSheet from 'react-native-media-query';
 
-import { Dimensions, View, Text, ScrollView, Button } from "react-native";
+import CampaignStats from '../common/CampaignStats';
 
 const window = Dimensions.get("window");
 
-const WidgetContainer = ({ useHorizontalSpacing }) => {
+const WidgetContainer = ({ useHorizontalSpacing, children }) => {
   return (
     <View 
       style={[
@@ -15,9 +16,7 @@ const WidgetContainer = ({ useHorizontalSpacing }) => {
       ]}
       dataSet={{ media: ids.widgetDummy }}
     >
-      <Text>
-        Some Widget Dummy
-      </Text>
+      {children}
     </View>
   );
 };
@@ -87,13 +86,16 @@ const App = () => {
               </Text>
               <View style={styles.container} dataSet={{ media: ids.container }}>
                 <WidgetContainer />
+                <WidgetContainer useHorizontalSpacing={useHorizontalSpacing} />
               </View>
 
               <Text style={styles.sectionsText} dataSet={{ media: ids.sectionsText }}>
                 Campaigns
               </Text>
               <View style={styles.container} dataSet={{ media: ids.container }}>
-                <WidgetContainer />
+                <WidgetContainer>
+                  <CampaignStats />
+                </WidgetContainer>
               </View>
             </ScrollView>
           </View>
@@ -102,10 +104,26 @@ const App = () => {
 
       {location === 'Conversations' && (
         <View style={styles.background} dataSet={{ media: ids.background }}>
-          <ScrollView
-            showsVerticalScrollIndicator={false}
-          >
-          </ScrollView>
+          <View style={styles.content} dataSet={{ media: ids.content }}>
+            <ScrollView
+              showsVerticalScrollIndicator={false}
+            >
+              <FlatList
+                data={conversations}
+                ItemSeparatorComponent={Separator}
+                renderItem={
+                  ({ item: { contact, messages } }) => (
+                    <ConversationSummary
+                      key={contact.contactId}
+                      contact={contact}
+                      message={messages[0]}
+                      onSelect={() => onSelectConvo({ contact, messages })}
+                    />
+                  )
+                }
+              />
+            </ScrollView>
+          </View>
         </View>
       )}
     </View>
