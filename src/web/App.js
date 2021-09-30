@@ -5,6 +5,8 @@ import StyleSheet from 'react-native-media-query';
 
 import WebHeader from '../common/WebHeader';
 import CampaignStats from '../common/CampaignStats';
+import AverageRating from '../common/AverageRating';
+import RatingsBySite from '../common/RatingsBySite';
 import ConversationSummary from '../common/ConversationSummary';
 import conversations from '../data/conversations';
 import campaignStats from '../data/campaignStats';
@@ -88,8 +90,14 @@ const App = () => {
                 Reviews
               </Text>
               <View style={styles.container} dataSet={{ media: ids.container }}>
-                <WidgetContainer />
-                <WidgetContainer useHorizontalSpacing={useHorizontalSpacing} />
+                <WidgetContainer>
+                  {/* PUT DATA */}
+                  <AverageRating reviewStats={{}} />
+                </WidgetContainer>
+                <WidgetContainer useHorizontalSpacing={useHorizontalSpacing}>
+                  {/* PUT DATA */}
+                  <RatingsBySite reviewSites={[]} reviewStats={{}} />
+                </WidgetContainer>
               </View>
 
               <Text style={styles.sectionsText} dataSet={{ media: ids.sectionsText }}>
