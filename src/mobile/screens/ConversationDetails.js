@@ -8,11 +8,21 @@ import {
     TouchableOpacity,
     View,
 } from 'react-native';
+import ConversationBubble from '../../common/ConversationBubble';
 import Colors from '../../constants/Colors';
+import { formatName  } from '../../lib/Formatters';
 
-const messages = [1,2,3,4,5]
+const ConversationDetails = ({ conversation, onNavigate }) => {
+    let contactName = '';
+    let messages = [];
 
-const ConversationDetails = ({ onNavigate }) => {
+    if (conversation) {
+        const { name } = formatName(conversation.contact);
+
+        contactName = name;
+        messages = conversation.messages;
+    }
+
     return (
         <>
             <SafeAreaView style={{ flex: 0, backgroundColor: Colors.background_1 }} />
@@ -29,24 +39,32 @@ const ConversationDetails = ({ onNavigate }) => {
                 </View>
 
                 <View style={styles.title_container}>
-                    <Text style={styles.title}>John Doe</Text>
+                    <Text style={styles.title}>{contactName}</Text>
                     <Text style={styles.lifecycle}>Active Customer</Text>
                 </View>
 
                 <View style={{ flex: 1 }}>
 
                     <FlatList
+                        contentContainerStyle={{ paddingHorizontal: 15, paddingVertical: 10 }}
                         data={messages}
                         inverted={true}
-                        // keyExtractor={item => String(item.id)}
                         renderItem={
-                            ({ item }) => (
-                                <Text key={item}>{item}</Text>
-                                // <MessageSummary
-                                //     activity={activity}
-                                //     onPressMedia={mediaId => setMediaSelected(mediaId)}
-                                // />
-                            )
+                            ({ item: message }) => {
+                                const orientation = message.documentType.includes('Interaction') ?
+                                    'left' : 'right';
+                                const sender = orientation === 'right' ? 'You' : contactName
+
+                                return (
+                                    <ConversationBubble
+                                        key={message.timestamp}
+                                        messageContent={message.messageBody}
+                                        orientation={orientation}
+                                        sender={sender}
+                                        timestamp={message.timestamp}
+                                    />
+                                );
+                            }
                         }
                     />
 

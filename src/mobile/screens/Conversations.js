@@ -11,10 +11,10 @@ import {
 import Separator from '../../common/Separator';
 import ConversationSummary from '../../common/ConversationSummary';
 import Colors from '../../constants/Colors';
-
-const conversations = [];
+import conversations from '../../data/conversations';
 
 const Conversations = ({ onNavigate, onSelectConvo }) => {
+    console.log('conversations', conversations);
     return (
         <>
             <SafeAreaView style={{ flex: 0, backgroundColor: Colors.background_1 }} />
@@ -37,12 +37,13 @@ const Conversations = ({ onNavigate, onSelectConvo }) => {
                 <FlatList
                     data={conversations}
                     ItemSeparatorComponent={Separator}
-                    keyExtractor={item => String(item.contactId)}
                     renderItem={
                         ({ item: { contact, messages } }) => (
                             <ConversationSummary
+                                key={contact.contactId}
                                 contact={contact}
                                 message={messages[0]}
+                                onSelect={() => onSelectConvo({ contact, messages })}
                             />
                         )
                     }

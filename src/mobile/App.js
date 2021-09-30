@@ -14,6 +14,7 @@ const AVAILABLE_SCREENS = {
 
 export default function App() {
     const [activeScreen, setActiveScreen] = useState(AVAILABLE_SCREENS.DASHBOARD);
+    const [selectedConversation, setSelectedConversation] = useState(null);
     let renderedScreen;
 
     switch (activeScreen) {
@@ -29,7 +30,12 @@ export default function App() {
             renderedScreen = (
                 <Conversations
                     onNavigate={() => setActiveScreen(AVAILABLE_SCREENS.DASHBOARD)}
-                    onSelectConvo={() => setActiveScreen(AVAILABLE_SCREENS.CONVERSATION_DETAILS)}
+                    onSelectConvo={
+                        (convo) => {
+                            setActiveScreen(AVAILABLE_SCREENS.CONVERSATION_DETAILS);
+                            setSelectedConversation(convo);
+                        }
+                    }
                 />
             );
             break;
@@ -37,6 +43,7 @@ export default function App() {
         case AVAILABLE_SCREENS.CONVERSATION_DETAILS: {
             renderedScreen = (
                 <ConversationDetails
+                    conversation={selectedConversation}
                     onNavigate={() => setActiveScreen(AVAILABLE_SCREENS.CONVERSATIONS)}
                 />
             );
