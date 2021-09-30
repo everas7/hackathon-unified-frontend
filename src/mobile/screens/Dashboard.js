@@ -10,6 +10,8 @@ import {
 } from 'react-native';
 import AverageRating from '../../common/AverageRating';
 import RatingsBySite from '../../common/RatingsBySite';
+import TotalContacts from '../../common/TotalContacts';
+import ContactsByType from '../../common/ContactsByType';
 import CampaignStats from '../../common/CampaignStats';
 import Colors from '../../constants/Colors';
 import stats from '../../data/stats';
@@ -52,12 +54,12 @@ const Dashboard = ({ onNavigate }) => {
                     <AverageRating reviewStats={reviewStats} />
 
                     <RatingsBySite reviewSites={locationReviewSites} reviewStats={reviewStats} />
-                    
+
                     <StatsTitle title='Contacts' />
 
-                    {/* <TotalContacts contactStats={contactStats}/> */}
+                    <TotalContacts contactStats={contactStats}/>
 
-                    {/* <ContactsByType contactStats={contactStats} /> */}
+                    <ContactsByType contactStats={contactStats} />
 
                     <StatsTitle title='Campaigns' />
 
