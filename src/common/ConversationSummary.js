@@ -88,12 +88,17 @@ const ChannelLabel = ({ documentType, style }) => {
 const Conversation = ({
     containerStyle,
     conversationRead,
+    conversationSelected,
     date,
     documentType,
     message,
     name,
 }) => (
-    <View style={[styles.container, containerStyle]}>
+    <View style={[
+        styles.container,
+        conversationSelected ? { backgroundColor: 'rgba(0,0,0,0.07)' } : undefined,
+        containerStyle
+    ]}>
         <View>
             <View style={[styles.dot, { opacity: conversationRead ? 0 : 1 }]} />
         </View>
@@ -125,6 +130,7 @@ const ConversationSummary = ({
       messageBody,
       timestamp,
   },
+  conversationSelected,
 }) => {
     const { name } = formatName({
       firstName,
@@ -137,6 +143,7 @@ const ConversationSummary = ({
 
   const conversationProps = {
       conversationRead,
+      conversationSelected,
       date,
       documentType,
       message: messageBody,
