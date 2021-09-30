@@ -74,7 +74,7 @@ export function formatName({
  * @param {number} params.number - Number to be formatted
  * @returns {string} Formatted number
  */
-export function formatNumber({ number }) {
+ export function formatNumber({ number }) {
     if (number === undefined || number === null) {
         return '';
     }
