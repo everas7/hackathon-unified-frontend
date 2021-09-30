@@ -1,6 +1,6 @@
 // App.js - WEB
 import React, { useCallback, useEffect, useState } from "react";
-import { Dimensions, View, Text, ScrollView, Button, FlatList } from "react-native";
+import { Dimensions, View, Text, ScrollView, Button, FlatList, Pressable } from "react-native";
 import StyleSheet from 'react-native-media-query';
 
 import CampaignStats from '../common/CampaignStats';
@@ -114,24 +114,31 @@ const App = () => {
       {location === 'Conversations' && (
         <View style={styles.background} dataSet={{ media: ids.background }}>
           <View style={styles.content} dataSet={{ media: ids.content }}>
-            <ScrollView
-              showsVerticalScrollIndicator={false}
-            >
-              <FlatList
-                data={conversations}
-                ItemSeparatorComponent={Separator}
-                renderItem={
-                  ({ item: { contact, messages } }) => (
-                    <ConversationSummary
-                      key={contact.contactId}
-                      contact={contact}
-                      message={messages[0]}
-                      onSelect={() => onSelectConvo({ contact, messages })}
-                    />
-                  )
-                }
-              />
-            </ScrollView>
+            {useHorizontalSpacing && null} {/* WILLS CHAT */}
+            {!useHorizontalSpacing && (
+              <ScrollView
+                showsVerticalScrollIndicator={false}
+              >
+                <FlatList
+                  data={conversations}
+                  ItemSeparatorComponent={Separator}
+                  renderItem={
+                    ({ item: { contact, messages } }) => (
+                      <Pressable
+                        onPress={() => null}
+                      >
+                        <ConversationSummary
+                          key={contact.contactId}
+                          contact={contact}
+                          message={messages[0]}
+                          onSelect={() => onSelectConvo({ contact, messages })}
+                        />
+                      </Pressable>
+                    )
+                  }
+                />
+              </ScrollView>
+            )}
           </View>
         </View>
       )}
