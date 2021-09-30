@@ -1,12 +1,63 @@
 // App.js - React Native
 
-import React, { Component } from "react";
-import Dummy from "../common/Dummy";
+import React, { useState } from "react";
+import { View, StyleSheet } from "react-native";
+import Dashboard from './screens/Dashboard';
+import Conversations from './screens/Conversations';
+import ConversationDetails from "./screens/ConversationDetails";
 
-class App extends Component {
-  render() {
-    return <Dummy />;
-  }
+const AVAILABLE_SCREENS = {
+    DASHBOARD: 'DASHBOARD',
+    CONVERSATIONS: 'CONVERSATIONS',
+    CONVERSATION_DETAILS: 'CONVERSATION_DETAILS'
+};
+
+export default function App() {
+    const [activeScreen, setActiveScreen] = useState(AVAILABLE_SCREENS.DASHBOARD);
+    let renderedScreen;
+
+    switch (activeScreen) {
+        case AVAILABLE_SCREENS.DASHBOARD: {
+            renderedScreen = (
+                <Dashboard
+                    onNavigate={() => setActiveScreen(AVAILABLE_SCREENS.CONVERSATIONS)}
+                />
+            );
+            break;
+        }
+        case AVAILABLE_SCREENS.CONVERSATIONS: {
+            renderedScreen = (
+                <Conversations
+                    onNavigate={() => setActiveScreen(AVAILABLE_SCREENS.DASHBOARD)}
+                    onSelectConvo={() => setActiveScreen(AVAILABLE_SCREENS.CONVERSATION_DETAILS)}
+                />
+            );
+            break;
+        }
+        case AVAILABLE_SCREENS.CONVERSATION_DETAILS: {
+            renderedScreen = (
+                <ConversationDetails
+                    onNavigate={() => setActiveScreen(AVAILABLE_SCREENS.CONVERSATIONS)}
+                />
+            );
+            break;
+        }
+
+        default:{
+            renderedScreen = null;
+            break;
+        }
+    }
+
+    return (
+        <View style={styles.container}>
+            {renderedScreen}
+        </View>
+    );
 }
 
-export default App;
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
+});
