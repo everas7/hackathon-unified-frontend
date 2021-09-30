@@ -9,9 +9,10 @@ import {
     View,
 } from 'react-native';
 import Separator from '../../common/Separator';
+import ConversationSummary from '../../common/ConversationSummary';
 import Colors from '../../constants/Colors';
 
-const conversations = [1,2,3,4,5]
+const conversations = [];
 
 const Conversations = ({ onNavigate, onSelectConvo }) => {
     return (
@@ -38,17 +39,11 @@ const Conversations = ({ onNavigate, onSelectConvo }) => {
                     ItemSeparatorComponent={Separator}
                     keyExtractor={item => String(item.contactId)}
                     renderItem={
-                        ({ item: { contact, message } }) => (
-                            <Text>Conversations</Text>
-                            // <ConversationSummary
-                            //     checked={isEditable ? !!selectedConvs[contact.contactId] : false}
-                            //     contact={contact}
-                            //     dispatch={dispatch}
-                            //     editable={isEditable}
-                            //     message={message}
-                            //     navigation={navigation}
-                            //     onCheck={checkConversation}
-                            // />
+                        ({ item: { contact, messages } }) => (
+                            <ConversationSummary
+                                contact={contact}
+                                message={messages[0]}
+                            />
                         )
                     }
                 />
