@@ -1,70 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import moment from 'moment';
+import { formatDate, formatName } from '../lib/Formatters';
 import Colors from '../constants/Colors';
-
-const NAME_SOURCE = {
-  NAME: 'NAME',
-  EMAIL: 'EMAIL',
-  PHONE: 'PHONE',
-};
-
-const formatDate = ({ date }) => {
-  if (!date) {
-      return '';
-  }
-
-  const selectedDate = moment(date);
-
-  if (selectedDate.isSame(moment(), 'd')) { // Is today
-      return `${selectedDate.format('[Today] h:mm a')}`;
-  } else if (selectedDate.isAfter(moment().subtract(1, 'd').startOf(), 'd')) { // Is yesterday
-      return `${selectedDate.format('[Yesterday] h:mm a')}`;
-  } else if (selectedDate.isAfter(moment().startOf('year'), 'd')) { // Is this year
-      return `${selectedDate.format('MMM D h:mm a')}`;
-  } else { // Previous years
-      return `${selectedDate.format('MMM D YYYY h:mm a')}`;
-  }
-}
-
-const formatPhoneNumber = ({ phoneNumber }) => {
-  if (!phoneNumber) {
-      return '';
-  }
-
-  let renderedPhoneNumber = phoneNumber;
-
-  renderedPhoneNumber = renderedPhoneNumber.replace(/\D/g, '').slice(-10);
-  renderedPhoneNumber =
-      `(${renderedPhoneNumber.substring(0, 3)}) ${renderedPhoneNumber.substring(3, 6)}-${renderedPhoneNumber.substring(6, renderedPhoneNumber.length)}`;
-
-  return renderedPhoneNumber;
-}
-
-const formatName = ({
-  firstName,
-  lastName,
-  primaryEmailAddress,
-  primaryPhoneNumber,
-}) => {
-  let name = '';
-  let source = '';
-
-  if (firstName || lastName) {
-      const firstPart = firstName ? `${firstName} ` : '';
-
-      name = `${firstPart}${lastName || ''}`;
-      source = NAME_SOURCE.NAME;
-  } else if (primaryPhoneNumber) {
-      name = formatPhoneNumber({ phoneNumber: primaryPhoneNumber });
-      source = NAME_SOURCE.PHONE;
-  } else if (primaryEmailAddress) {
-      name = primaryEmailAddress;
-      source = NAME_SOURCE.EMAIL;
-  }
-
-  return { name, source };
-}
 
 const styles = StyleSheet.create({
   channelLabelContainer: {
