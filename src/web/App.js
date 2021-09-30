@@ -41,25 +41,25 @@ const App = () => {
       <ScrollView
         showsVerticalScrollIndicator={false}
       >
+        <Text style={styles.sectionsText} dataSet={{ media: ids.sectionsText }}>
+          Reviews
+        </Text>
         <View style={styles.container} dataSet={{ media: ids.container }}>
-          {/* <Text style={styles.sectionsText} dataSet={{ media: ids.sectionsText }}>
-            Reviews
-          </Text> */}
           <WidgetContainer />
           <WidgetContainer useHorizontalSpacing={useHorizontalSpacing} />
         </View>
 
+        <Text style={styles.sectionsText} dataSet={{ media: ids.sectionsText }}>
+          Contacts
+        </Text>
         <View style={styles.container} dataSet={{ media: ids.container }}>
-          {/* <Text style={styles.sectionsText} dataSet={{ media: ids.sectionsText }}>
-            Contacts
-          </Text> */}
           <WidgetContainer />
         </View>
 
+        <Text style={styles.sectionsText} dataSet={{ media: ids.sectionsText }}>
+          Campaigns
+        </Text>
         <View style={styles.container} dataSet={{ media: ids.container }}>
-          {/* <Text style={styles.sectionsText} dataSet={{ media: ids.sectionsText }}>
-            Campaigns
-          </Text> */}
           <WidgetContainer />
         </View>
       </ScrollView>
@@ -81,10 +81,12 @@ const {ids, styles} = StyleSheet.create({
   background: {
     height: Dimensions.get('window').height,
     backgroundColor: '#f1f2f6',
+    paddingTop: '10px',
   }, 
 
   sectionsText: {
     marginTop: '10px',
+    marginLeft: '2%'
   },
 
   container: {
