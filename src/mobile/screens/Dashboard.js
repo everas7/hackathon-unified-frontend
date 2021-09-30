@@ -8,7 +8,12 @@ import {
     TouchableOpacity,
     View,
 } from 'react-native';
+import AverageRating from '../../common/AverageRating';
+import RatingsBySite from '../../common/RatingsBySite';
+import CampaignStats from '../../common/CampaignStats';
 import Colors from '../../constants/Colors';
+import stats from '../../data/stats';
+import locationReviewSites from '../../data/reviewSites';
 
 const StatsTitle = ({ title }) => (
     <View style={styles.stats_title_container}>
@@ -17,6 +22,8 @@ const StatsTitle = ({ title }) => (
 );
 
 const Dashboard = ({ onNavigate }) => {
+    const { reviewStats, campaignStats, contactStats } = stats;
+
     return (
         <>
             <SafeAreaView style={{ flex: 0, backgroundColor: Colors.background_1 }} />
@@ -42,10 +49,10 @@ const Dashboard = ({ onNavigate }) => {
                 >
                     <StatsTitle title='Reviews' />
 
-                    {/* <AverageRating reviewStats={reviewStats} /> */}
+                    <AverageRating reviewStats={reviewStats} />
 
-                    {/* <RatingsBySite reviewSites={locationReviewSites} reviewStats={reviewStats} /> */}
-
+                    <RatingsBySite reviewSites={locationReviewSites} reviewStats={reviewStats} />
+                    
                     <StatsTitle title='Contacts' />
 
                     {/* <TotalContacts contactStats={contactStats}/> */}
@@ -54,7 +61,7 @@ const Dashboard = ({ onNavigate }) => {
 
                     <StatsTitle title='Campaigns' />
 
-                    {/* <CampaignStats campaignStats={campaignStats}/> */}
+                    <CampaignStats campaignStats={campaignStats}/>
                 </ScrollView>
 
             </View>

@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     text: {
-        fontFamily: 'Apercu-Regular',
+        fontWeight: '400',
         fontSize: 16,
     },
 });
