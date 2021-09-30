@@ -1,10 +1,11 @@
-// App.js - WEB
+// App.js - React Native
+
 import React, { Component } from "react";
-import HomeScreen from "./HomeScreen";
+import Dummy from "../common/Dummy";
 
 class App extends Component {
   render() {
-    return <HomeScreen />;
+    return <Dummy />;
   }
 }
 

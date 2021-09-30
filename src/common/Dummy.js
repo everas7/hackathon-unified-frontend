@@ -9,7 +9,7 @@ const instructions = Platform.select({
   web: "Your browser will automatically refresh as soon as you save the file."
 });
 
-const HomeScreen = () => {
+const Dummy = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.welcome}>
@@ -43,4 +43,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default HomeScreen;
+export default Dummy;

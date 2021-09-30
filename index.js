@@ -2,7 +2,7 @@
 /** @format */
 
 import { AppRegistry } from "react-native";
-import App from "./src/App.native.js";
+import App from "./src/mobile/App.js";
 import { name as appName } from "./app.json";
 
 AppRegistry.registerComponent(appName, () => App);
