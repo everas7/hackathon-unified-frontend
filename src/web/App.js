@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { Dimensions, View, Text, ScrollView, Button, FlatList, Pressable } from "react-native";
 import StyleSheet from 'react-native-media-query';
 
+import WebHeader from '../common/WebHeader';
 import CampaignStats from '../common/CampaignStats';
 import ConversationSummary from '../common/ConversationSummary';
 import conversations from '../data/conversations';
@@ -47,11 +48,11 @@ const App = () => {
 
   useEffect(() => {
     if (location === 'Dashboard') {
-      setNavText('Go to Conversations');
+      setNavText('Conversations');
     } else if (location === 'Conversations') {
-      setNavText('Go to Dashboard');
+      setNavText('Dashboard');
     } else if (location === 'Single Conversation') {
-      setNavText('Go to Conversations');
+      setNavText('Conversations');
     }
   }, [location])
 
@@ -73,15 +74,11 @@ const App = () => {
   return (
     <View>
       {/* Header */}
-      <View>
-        <Text>
-          Header
-        </Text>
-        <Button 
-          title={navText} 
-          onPress={handleNavigationButton}
-        />
-      </View>
+      <WebHeader 
+        title={location}
+        goto={{ label: navText, onPress: handleNavigationButton }}
+        username='Jontho but User'
+      />
 
       {/* Content */}
       {location === 'Dashboard' && (
