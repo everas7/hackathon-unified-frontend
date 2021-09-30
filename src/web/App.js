@@ -1,8 +1,8 @@
 // App.js - WEB
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import StyleSheet from 'react-native-media-query';
 
-import { Dimensions, View, Text, ScrollView } from "react-native";
+import { Dimensions, View, Text, ScrollView, Button } from "react-native";
 
 const window = Dimensions.get("window");
 
@@ -23,7 +23,25 @@ const WidgetContainer = ({ useHorizontalSpacing }) => {
 };
 
 const App = () => {
+  const [location, setLocation] = useState('Dashboard');
+  const [navText, setNavText] = useState('Go to Conversations');
   const [useHorizontalSpacing, setUseHorizontalSpacing] = useState(window.width >= 768);
+
+  const handleNavigationButton = useCallback(() => {
+    if (location === 'Dashboard') {
+      setLocation('Conversations')
+    } else if (location === 'Conversations') {
+      setLocation('Dashboard')
+    }
+  }, [location]);
+
+  useEffect(() => {
+    if (location === 'Dashboard') {
+      setNavText('Go to Conversations')
+    } else if (location === 'Conversations') {
+      setNavText('Go to Dashboard')
+    }
+  }, [location])
 
   useEffect(() => {
     const subscription = Dimensions.addEventListener(
@@ -37,32 +55,57 @@ const App = () => {
   });
 
   return (
-    <View style={styles.background} dataSet={{ media: ids.background }}>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-      >
-        <Text style={styles.sectionsText} dataSet={{ media: ids.sectionsText }}>
-          Reviews
+    <View>
+      {/* header */}
+      <View>
+        <Text>
+          Header
         </Text>
-        <View style={styles.container} dataSet={{ media: ids.container }}>
-          <WidgetContainer />
-          <WidgetContainer useHorizontalSpacing={useHorizontalSpacing} />
-        </View>
+        <Button 
+          title={navText} 
+          onPress={handleNavigationButton}
+        />
+      </View>
 
-        <Text style={styles.sectionsText} dataSet={{ media: ids.sectionsText }}>
-          Contacts
-        </Text>
-        <View style={styles.container} dataSet={{ media: ids.container }}>
-          <WidgetContainer />
-        </View>
+      {/* Content */}
+      {location === 'Dashboard' && (
+        <View style={styles.background} dataSet={{ media: ids.background }}>
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+          >
+            <Text style={styles.sectionsText} dataSet={{ media: ids.sectionsText }}>
+              Reviews
+            </Text>
+            <View style={styles.container} dataSet={{ media: ids.container }}>
+              <WidgetContainer />
+              <WidgetContainer useHorizontalSpacing={useHorizontalSpacing} />
+            </View>
 
-        <Text style={styles.sectionsText} dataSet={{ media: ids.sectionsText }}>
-          Campaigns
-        </Text>
-        <View style={styles.container} dataSet={{ media: ids.container }}>
-          <WidgetContainer />
+            <Text style={styles.sectionsText} dataSet={{ media: ids.sectionsText }}>
+              Contacts
+            </Text>
+            <View style={styles.container} dataSet={{ media: ids.container }}>
+              <WidgetContainer />
+            </View>
+
+            <Text style={styles.sectionsText} dataSet={{ media: ids.sectionsText }}>
+              Campaigns
+            </Text>
+            <View style={styles.container} dataSet={{ media: ids.container }}>
+              <WidgetContainer />
+            </View>
+          </ScrollView>
         </View>
-      </ScrollView>
+      )}
+
+      {location === 'Conversations' && (
+        <View style={styles.background} dataSet={{ media: ids.background }}>
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+          >
+          </ScrollView>
+        </View>
+      )}
     </View>
   );
 };
