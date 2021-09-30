@@ -6,6 +6,7 @@ import StyleSheet from 'react-native-media-query';
 import CampaignStats from '../common/CampaignStats';
 import ConversationSummary from '../common/ConversationSummary';
 import conversations from '../data/conversations';
+import campaignStats from '../data/campaignStats';
 
 const window = Dimensions.get("window");
 
@@ -36,17 +37,21 @@ const App = () => {
 
   const handleNavigationButton = useCallback(() => {
     if (location === 'Dashboard') {
-      setLocation('Conversations')
+      setLocation('Conversations');
     } else if (location === 'Conversations') {
-      setLocation('Dashboard')
+      setLocation('Dashboard');
+    } else if (location === 'Single Conversation') {
+      setLocation('Conversations');
     }
   }, [location]);
 
   useEffect(() => {
     if (location === 'Dashboard') {
-      setNavText('Go to Conversations')
+      setNavText('Go to Conversations');
     } else if (location === 'Conversations') {
-      setNavText('Go to Dashboard')
+      setNavText('Go to Dashboard');
+    } else if (location === 'Single Conversation') {
+      setNavText('Go to Conversations');
     }
   }, [location])
 
@@ -55,6 +60,10 @@ const App = () => {
       "change",
       ({ window: newWindow }) => {
         setUseHorizontalSpacing(newWindow.width >= 768)
+
+        if (newWindow.width >= 768 && location === 'Single Conversation') {
+          setLocation('Conversations');
+        }
       }
     );
   
@@ -78,9 +87,6 @@ const App = () => {
       {location === 'Dashboard' && (
         <View style={styles.background} dataSet={{ media: ids.background }}>
           <View style={styles.content} dataSet={{ media: ids.content }}>
-            <ScrollView
-              showsVerticalScrollIndicator={false}
-            >
               <Text style={styles.sectionsText} dataSet={{ media: ids.sectionsText }}>
                 Reviews
               </Text>
@@ -102,11 +108,9 @@ const App = () => {
               </Text>
               <View style={styles.container} dataSet={{ media: ids.container }}>
                 <WidgetContainer>
-                  {/* ADD DATA */}
-                  <CampaignStats /> 
+                  <CampaignStats campaignStats={campaignStats} /> 
                 </WidgetContainer>
               </View>
-            </ScrollView>
           </View>
         </View>
       )}
@@ -116,10 +120,39 @@ const App = () => {
           <View style={styles.content} dataSet={{ media: ids.content }}>
             {useHorizontalSpacing && null} {/* WILLS CHAT */}
             {!useHorizontalSpacing && (
+                <FlatList
+                  data={conversations}
+                  ItemSeparatorComponent={Separator}
+                  renderItem={
+                    ({ item: { contact, messages } }) => (
+                      <Pressable
+                        onPress={() => setLocation('Single Conversation')}
+                      >
+                        <ConversationSummary
+                          key={contact.contactId}
+                          contact={contact}
+                          message={messages[0]}
+                          onSelect={() => onSelectConvo({ contact, messages })}
+                        />
+                      </Pressable>
+                    )
+                  }
+                />
+            )}
+          </View>
+        </View>
+      )}
+
+      {location === 'Single Conversation' && (
+        <View style={styles.background} dataSet={{ media: ids.background }}>
+          <View style={styles.content} dataSet={{ media: ids.content }}>
+            {useHorizontalSpacing && null} {/* WILLS CHAT */}
+            {!useHorizontalSpacing && (
               <ScrollView
                 showsVerticalScrollIndicator={false}
               >
-                <FlatList
+                {/* CHATS */}
+                {/* <FlatList
                   data={conversations}
                   ItemSeparatorComponent={Separator}
                   renderItem={
@@ -136,7 +169,7 @@ const App = () => {
                       </Pressable>
                     )
                   }
-                />
+                /> */}
               </ScrollView>
             )}
           </View>
