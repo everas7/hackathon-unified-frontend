@@ -70,31 +70,33 @@ const App = () => {
       {/* Content */}
       {location === 'Dashboard' && (
         <View style={styles.background} dataSet={{ media: ids.background }}>
-          <ScrollView
-            showsVerticalScrollIndicator={false}
-          >
-            <Text style={styles.sectionsText} dataSet={{ media: ids.sectionsText }}>
-              Reviews
-            </Text>
-            <View style={styles.container} dataSet={{ media: ids.container }}>
-              <WidgetContainer />
-              <WidgetContainer useHorizontalSpacing={useHorizontalSpacing} />
-            </View>
+          <View style={styles.content} dataSet={{ media: ids.content }}>
+            <ScrollView
+              showsVerticalScrollIndicator={false}
+            >
+              <Text style={styles.sectionsText} dataSet={{ media: ids.sectionsText }}>
+                Reviews
+              </Text>
+              <View style={styles.container} dataSet={{ media: ids.container }}>
+                <WidgetContainer />
+                <WidgetContainer useHorizontalSpacing={useHorizontalSpacing} />
+              </View>
 
-            <Text style={styles.sectionsText} dataSet={{ media: ids.sectionsText }}>
-              Contacts
-            </Text>
-            <View style={styles.container} dataSet={{ media: ids.container }}>
-              <WidgetContainer />
-            </View>
+              <Text style={styles.sectionsText} dataSet={{ media: ids.sectionsText }}>
+                Contacts
+              </Text>
+              <View style={styles.container} dataSet={{ media: ids.container }}>
+                <WidgetContainer />
+              </View>
 
-            <Text style={styles.sectionsText} dataSet={{ media: ids.sectionsText }}>
-              Campaigns
-            </Text>
-            <View style={styles.container} dataSet={{ media: ids.container }}>
-              <WidgetContainer />
-            </View>
-          </ScrollView>
+              <Text style={styles.sectionsText} dataSet={{ media: ids.sectionsText }}>
+                Campaigns
+              </Text>
+              <View style={styles.container} dataSet={{ media: ids.container }}>
+                <WidgetContainer />
+              </View>
+            </ScrollView>
+          </View>
         </View>
       )}
 
@@ -127,20 +129,26 @@ const {ids, styles} = StyleSheet.create({
     paddingTop: '10px',
   }, 
 
+  content: {
+    width: '96%',
+    margin: 'auto',
+    flex: 1,
+  
+    '@media (min-width: 768px)': {
+      maxWidth: '1080px',
+    },
+  },
+
   sectionsText: {
     marginTop: '10px',
-    marginLeft: '2%'
   },
 
   container: {
-    width: '96%',
-    margin: 'auto',
     display: 'flex',
     flexDirection: 'column',
 
     '@media (min-width: 768px)': {
       flexDirection: 'row',
-      maxWidth: '1080px',
     },
   },
 });
