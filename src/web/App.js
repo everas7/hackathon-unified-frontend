@@ -1,9 +1,11 @@
 // App.js - WEB
 import React, { useCallback, useEffect, useState } from "react";
-import { Dimensions, View, Text, ScrollView, Button } from "react-native";
+import { Dimensions, View, Text, ScrollView, Button, FlatList } from "react-native";
 import StyleSheet from 'react-native-media-query';
 
 import CampaignStats from '../common/CampaignStats';
+import ConversationSummary from '../common/ConversationSummary';
+import conversations from '../data/conversations';
 
 const window = Dimensions.get("window");
 
@@ -18,6 +20,12 @@ const WidgetContainer = ({ useHorizontalSpacing, children }) => {
     >
       {children}
     </View>
+  );
+};
+
+const Separator = () => {
+  return (
+    <View style={styles.separator} />
   );
 };
 
@@ -55,7 +63,7 @@ const App = () => {
 
   return (
     <View>
-      {/* header */}
+      {/* Header */}
       <View>
         <Text>
           Header
@@ -94,7 +102,8 @@ const App = () => {
               </Text>
               <View style={styles.container} dataSet={{ media: ids.container }}>
                 <WidgetContainer>
-                  <CampaignStats />
+                  {/* ADD DATA */}
+                  <CampaignStats /> 
                 </WidgetContainer>
               </View>
             </ScrollView>
@@ -131,6 +140,10 @@ const App = () => {
 };
 
 const {ids, styles} = StyleSheet.create({
+  separator: {
+    marginTop: '5px',
+  },
+
   widgetDummy: {
     minHeight: '100px',
     marginBottom: '10px',
