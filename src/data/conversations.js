@@ -1,7 +1,7 @@
 const conversations = [
     {
         contact: {
-            conversationRead: true,
+            conversationRead: false,
             contactId: 12345,
             firstName: 'John M',
             lastName: 'Bradley',
@@ -46,7 +46,7 @@ const conversations = [
     },
     {
         contact: {
-            conversationRead: true,
+            conversationRead: false,
             contactId: 12347,
             firstName: 'Ivo',
             lastName: 'Haris',
