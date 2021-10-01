@@ -7,6 +7,9 @@ import WebHeader from '../common/WebHeader';
 import CampaignStats from '../common/CampaignStats';
 import AverageRating from '../common/AverageRating';
 import RatingsBySite from '../common/RatingsBySite';
+import ContactsByType from '../common/ContactsByType';
+import Separator from '../common/Separator';
+import TotalContacts from '../common/TotalContacts';
 import ConversationBubble from '../common/ConversationSummary';
 import ConversationSummary from '../common/ConversationSummary';
 import conversations from '../data/conversations';
@@ -26,12 +29,6 @@ const WidgetContainer = ({ useHorizontalSpacing, children }) => {
     >
       {children}
     </View>
-  );
-};
-
-const Separator = () => {
-  return (
-    <View style={styles.separator} />
   );
 };
 
@@ -123,8 +120,12 @@ const App = () => {
                 Contacts
               </Text>
               <View style={styles.container} dataSet={{ media: ids.container }}>
-                <WidgetContainer />
-                <WidgetContainer useHorizontalSpacing={useHorizontalSpacing} />
+                <WidgetContainer>
+                    <TotalContacts contactStats={stats.contactStats} />
+                </WidgetContainer>
+                <WidgetContainer useHorizontalSpacing={useHorizontalSpacing}>
+                    <ContactsByType contactStats={stats.contactStats} />
+                </WidgetContainer>
               </View>
 
               <Text style={styles.sectionsText} dataSet={{ media: ids.sectionsText }}>
@@ -140,7 +141,7 @@ const App = () => {
       )}
 
       {location === 'Conversations' && (
-        <View style={styles.background} dataSet={{ media: ids.background }}>
+        <View style={[styles.background, { backgroundColor: '#fff' }]} dataSet={{ media: ids.background }}>
           <View style={styles.content} dataSet={{ media: ids.content }}>
             {useHorizontalSpacing && null} {/* WILLS CHAT */}
             {!useHorizontalSpacing && (
@@ -218,10 +219,6 @@ const App = () => {
 };
 
 const {ids, styles} = StyleSheet.create({
-  separator: {
-    marginTop: '5px',
-  },
-
   widgetDummy: {
     minHeight: '100px',
     marginBottom: '10px',
@@ -233,7 +230,6 @@ const {ids, styles} = StyleSheet.create({
   },
 
   background: {
-    height: Dimensions.get('window').height,
     backgroundColor: '#f1f2f6',
     paddingTop: '10px',
   },
