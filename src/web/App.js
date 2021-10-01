@@ -1,21 +1,26 @@
 // App.js - WEB
 import React, { useCallback, useEffect, useState } from "react";
-import { Dimensions, View, Text, ScrollView, Button, FlatList, Pressable } from "react-native";
+import { Dimensions, View, Text, ScrollView, FlatList } from "react-native";
 import StyleSheet from 'react-native-media-query';
 
 import WebHeader from '../common/WebHeader';
 import CampaignStats from '../common/CampaignStats';
 import AverageRating from '../common/AverageRating';
 import RatingsBySite from '../common/RatingsBySite';
+import ContactsByType from '../common/ContactsByType';
+import Separator from '../common/Separator';
+import TotalContacts from '../common/TotalContacts';
+import ConversationBubble from '../common/ConversationSummary';
 import ConversationSummary from '../common/ConversationSummary';
 import conversations from '../data/conversations';
 import stats from '../data/stats';
+import Colors from '../constants/Colors';
 
 const window = Dimensions.get("window");
 
 const WidgetContainer = ({ useHorizontalSpacing, children }) => {
   return (
-    <View 
+    <View
       style={[
         styles.widgetDummy,
         useHorizontalSpacing ? { marginLeft: '20px' } : null
@@ -27,15 +32,11 @@ const WidgetContainer = ({ useHorizontalSpacing, children }) => {
   );
 };
 
-const Separator = () => {
-  return (
-    <View style={styles.separator} />
-  );
-};
-
 const App = () => {
   const [location, setLocation] = useState('Dashboard');
   const [navText, setNavText] = useState('Go to Conversations');
+  const [activeConvo, setActiveConvo] = useState([]);
+  const [contactName, setContactName] = useState('');
   const [useHorizontalSpacing, setUseHorizontalSpacing] = useState(window.width >= 768);
 
   const handleNavigationButton = useCallback(() => {
@@ -69,14 +70,14 @@ const App = () => {
         }
       }
     );
-  
+
     return () => subscription?.remove();
   });
 
   return (
     <View>
       {/* Header */}
-      <WebHeader 
+      <WebHeader
         title={location}
         goto={{ label: navText, onPress: handleNavigationButton }}
         username='Jontho but User'
@@ -92,7 +93,7 @@ const App = () => {
               </Text>
               <View style={styles.container} dataSet={{ media: ids.container }}>
                 <WidgetContainer>
-                  <AverageRating  
+                  <AverageRating
                     reviewStats={[
                       { reviewCount: 12, rating: 4.3 },
                       { reviewCount: 13, rating: 4.8 },
@@ -100,17 +101,17 @@ const App = () => {
                   />
                 </WidgetContainer>
                 <WidgetContainer useHorizontalSpacing={useHorizontalSpacing}>
-                  <RatingsBySite 
+                  <RatingsBySite
                     reviewSites={[
                       {
                         id: 1,
                         reviewSiteId: 1,
                       },
-                    ]} 
+                    ]}
                     reviewStats={[
                       { reviewCount: 12, rating: 4.3, reviewSiteId: 1 },
                       { reviewCount: 13, rating: 4.8 },
-                    ]} 
+                    ]}
                   />
                 </WidgetContainer>
               </View>
@@ -119,8 +120,12 @@ const App = () => {
                 Contacts
               </Text>
               <View style={styles.container} dataSet={{ media: ids.container }}>
-                <WidgetContainer />
-                <WidgetContainer useHorizontalSpacing={useHorizontalSpacing} />
+                <WidgetContainer>
+                    <TotalContacts contactStats={stats.contactStats} />
+                </WidgetContainer>
+                <WidgetContainer useHorizontalSpacing={useHorizontalSpacing}>
+                    <ContactsByType contactStats={stats.contactStats} />
+                </WidgetContainer>
               </View>
 
               <Text style={styles.sectionsText} dataSet={{ media: ids.sectionsText }}>
@@ -128,7 +133,7 @@ const App = () => {
               </Text>
               <View style={styles.container} dataSet={{ media: ids.container }}>
                 <WidgetContainer>
-                  <CampaignStats campaignStats={stats.campaignStats} /> 
+                  <CampaignStats campaignStats={stats.campaignStats} />
                 </WidgetContainer>
               </View>
           </View>
@@ -136,7 +141,7 @@ const App = () => {
       )}
 
       {location === 'Conversations' && (
-        <View style={styles.background} dataSet={{ media: ids.background }}>
+        <View style={[styles.background, { backgroundColor: '#fff' }]} dataSet={{ media: ids.background }}>
           <View style={styles.content} dataSet={{ media: ids.content }}>
             {useHorizontalSpacing && null} {/* WILLS CHAT */}
             {!useHorizontalSpacing && (
@@ -151,6 +156,8 @@ const App = () => {
                         message={messages[0]}
                         onSelect={() => {
                           setLocation('Single Conversation');
+                          setActiveConvo(messages);
+                          setContactName(`${contact.firstName} ${contact.lastName}`);
                         }}
                       />
                     )
@@ -169,7 +176,39 @@ const App = () => {
               <ScrollView
                 showsVerticalScrollIndicator={false}
               >
-                {/* CHATS */}
+                {/* <View style={{ flex: 1 }}>
+                  <FlatList
+                    contentContainerStyle={{ paddingHorizontal: 15, paddingVertical: 10 }}
+                    data={activeConvo}
+                    inverted={true}
+                    renderItem={
+                      ({ item: message }) => {
+                        const orientation = message.documentType.includes('Interaction') ?
+                          'left' : 'right';
+                        const sender = orientation === 'right' ? 'You' : contactName
+
+                        return (
+                          <ConversationBubble
+                            key={message.timestamp}
+                            messageContent={message.messageBody}
+                            orientation={orientation}
+                            sender={sender}
+                            timestamp={message.timestamp}
+                          />
+                        );
+                      }
+                    }
+                  />
+
+                  <View style={styles.sender}>
+                    <View style={styles.text_input_container}>
+                      <Text style={styles.text_input}>Text message</Text>
+                    </View>
+                    <Text style={styles.send_button} >Send</Text>
+                  </View>
+
+                  <SafeAreaView style={{ flex: 0, backgroundColor: Colors.gray_70 }} />
+                </View> */}
               </ScrollView>
             )}
           </View>
@@ -180,10 +219,6 @@ const App = () => {
 };
 
 const {ids, styles} = StyleSheet.create({
-  separator: {
-    marginTop: '5px',
-  },
-
   widgetDummy: {
     minHeight: '100px',
     marginBottom: '10px',
@@ -195,16 +230,15 @@ const {ids, styles} = StyleSheet.create({
   },
 
   background: {
-    height: Dimensions.get('window').height,
     backgroundColor: '#f1f2f6',
     paddingTop: '10px',
-  }, 
+  },
 
   content: {
     width: '96%',
     margin: 'auto',
     flex: 1,
-  
+
     '@media (min-width: 768px)': {
       maxWidth: '1080px',
     },
