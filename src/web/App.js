@@ -9,7 +9,7 @@ import AverageRating from '../common/AverageRating';
 import RatingsBySite from '../common/RatingsBySite';
 import ConversationSummary from '../common/ConversationSummary';
 import conversations from '../data/conversations';
-import campaignStats from '../data/campaignStats';
+import stats from '../data/stats';
 
 const window = Dimensions.get("window");
 
@@ -128,7 +128,7 @@ const App = () => {
               </Text>
               <View style={styles.container} dataSet={{ media: ids.container }}>
                 <WidgetContainer>
-                  <CampaignStats campaignStats={campaignStats} /> 
+                  <CampaignStats campaignStats={stats.campaignStats} /> 
                 </WidgetContainer>
               </View>
           </View>
@@ -145,16 +145,14 @@ const App = () => {
                   ItemSeparatorComponent={Separator}
                   renderItem={
                     ({ item: { contact, messages } }) => (
-                      <Pressable
-                        onPress={() => setLocation('Single Conversation')}
-                      >
-                        <ConversationSummary
-                          key={contact.contactId}
-                          contact={contact}
-                          message={messages[0]}
-                          onSelect={() => onSelectConvo({ contact, messages })}
-                        />
-                      </Pressable>
+                      <ConversationSummary
+                        key={contact.contactId}
+                        contact={contact}
+                        message={messages[0]}
+                        onSelect={() => {
+                          setLocation('Single Conversation');
+                        }}
+                      />
                     )
                   }
                 />
@@ -172,24 +170,6 @@ const App = () => {
                 showsVerticalScrollIndicator={false}
               >
                 {/* CHATS */}
-                {/* <FlatList
-                  data={conversations}
-                  ItemSeparatorComponent={Separator}
-                  renderItem={
-                    ({ item: { contact, messages } }) => (
-                      <Pressable
-                        onPress={() => null}
-                      >
-                        <ConversationSummary
-                          key={contact.contactId}
-                          contact={contact}
-                          message={messages[0]}
-                          onSelect={() => onSelectConvo({ contact, messages })}
-                        />
-                      </Pressable>
-                    )
-                  }
-                /> */}
               </ScrollView>
             )}
           </View>
