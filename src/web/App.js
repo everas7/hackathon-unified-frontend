@@ -12,6 +12,7 @@ import Separator from '../common/Separator';
 import TotalContacts from '../common/TotalContacts';
 import ConversationBubble from '../common/ConversationBubble';
 import ConversationSummary from '../common/ConversationSummary';
+import Conversations from './screens/Conversations';
 import conversations from '../data/conversations';
 import stats from '../data/stats';
 import Colors from '../constants/Colors';
@@ -144,7 +145,9 @@ const App = () => {
       {location === 'Conversations' && (
         <View style={[styles.background, { backgroundColor: '#fff' }]} dataSet={{ media: ids.background }}>
           <View style={styles.content} dataSet={{ media: ids.content }}>
-            {useHorizontalSpacing && null} {/* WILLS CHAT */}
+            {useHorizontalSpacing && (
+              <Conversations />
+            )}
             {!useHorizontalSpacing && (
                 <FlatList
                   data={conversations}
