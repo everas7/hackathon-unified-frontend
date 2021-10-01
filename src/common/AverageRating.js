@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     },
     title: {
         color: Colors.text_2,
-        fontFamily: 'Apercu-Medium',
+        fontWeight: '500',
         fontSize: 16,
         marginBottom: 30,
     },
@@ -72,18 +72,18 @@ const styles = StyleSheet.create({
     },
     average: {
         color: Colors.text_1,
-        fontFamily: 'Apercu-Medium',
+        fontWeight: '500',
         fontSize: 32,
     },
     reviews_amount: {
         color: Colors.text_1,
-        fontFamily: 'Apercu-Bold',
+        fontWeight: 'bold',
         fontSize: 14,
         marginRight: 5,
     },
     reviews_label: {
         color: Colors.text_2,
-        fontFamily: 'Apercu-Regular',
+        fontWeight: '400',
         fontSize: 14,
     },
 });

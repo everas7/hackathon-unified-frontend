@@ -76,6 +76,7 @@ const styles = StyleSheet.create({
     },
     conversions_count: {
         color: Colors.primary,
+        fontWeight: 'bold',
         fontSize: 14,
         marginRight: 5,
     },
@@ -92,6 +93,7 @@ const styles = StyleSheet.create({
     header_text: {
         color: Colors.gray_100,
         fontSize: 12,
+        fontWeight: '500',
     },
     separator: {
         marginHorizontal: 0,
@@ -105,6 +107,7 @@ const styles = StyleSheet.create({
     title: {
         color: Colors.text_2,
         fontSize: 16,
+        fontWeight: '500',
         marginRight: 10,
     },
 });
