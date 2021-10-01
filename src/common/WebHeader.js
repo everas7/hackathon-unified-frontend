@@ -1,42 +1,56 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Pressable } from 'react-native';
 import StyleSheet from 'react-native-media-query';
 
 const defaultProps = {
     title: "Set 'title' prop",
     username: "Set 'username' prop",
     goto: { label: "Set 'goto.label' prop", onPress: () => null },
+    tabs: [{ label: "Set 'tab[idx].label' prop", onPress: () => null }],
 };
 
-const WebHeader = ({ title, goto = defaultProps.goto, username }) => {
+const WebHeader = ({ title, goto = defaultProps.goto, username, tabs = [] }) => {
     return (
-        <View style={styles.container} dataSet={{ media: ids.container }}>
-            <Text style={styles.title} dataSet={{ media: ids.title }}>
-                {title}
-            </Text>
-            <Text style={styles.username} dataSet={{ media: ids.username }}>
-                Welcome, {username}
-            </Text>
-            <Text style={styles.goto} dataSet={{ media: ids.goto }} onPress={goto.onPress}>
-                Go to {goto.label}
-            </Text>
-        </View>
+        <>
+            <View style={[styles.container, styles.layout]} dataSet={{ media: ids.container }}>
+                <Text style={styles.title} dataSet={{ media: ids.title }}>
+                    {title}
+                </Text>
+                <Text style={styles.username} dataSet={{ media: ids.username }}>
+                    Welcome, {username}
+                </Text>
+                <Text style={styles.goto} dataSet={{ media: ids.goto }} onPress={goto.onPress}>
+                    Go to {goto.label}
+                </Text>
+            </View>
+            <View style={[styles.layout, styles.tabSection]} dataSet={{ media: ids.tabSection }}>
+                {tabs.map(tab => (
+                    <Pressable onPress={tab.onPress}>
+                        <Text style={styles.tab} dataSet={{ media: ids.tab }}>
+                            {tab.label}
+                        </Text>
+                    </Pressable>
+                ))}
+            </View>
+        </>
     );
 };
 
 WebHeader.defaultProps = defaultProps;
 
 const { ids, styles } = StyleSheet.create({
-    container: {
+    layout: {
         display: 'flex',
         flexDirection: 'row',
-        justifyContent: 'space-between',
-        backgroundColor: '#F0F0F0',
-        height: '6vh',
         paddingTop: '2vh',
         paddingBottom: '2vh',
         paddingLeft: '10vw',
         paddingRight: '10vw',
+    },
+    container: {
+        backgroundColor: '#F0F0F0',
+        justifyContent: 'space-between',
+        height: '6vh',
         '@media (max-width: 768px)': {
             backgroundColor: '#FFF',
             height: '12vh',
@@ -70,6 +84,15 @@ const { ids, styles } = StyleSheet.create({
             display: 'none',
         },
     },
+    tabSection: {
+        display: 'flex',
+        backgroundColor: '#FFF',
+        borderBottom: '2px solid #F0F0F0',
+        '@media (max-width: 768px)': {
+            display: 'none',
+        },
+    },
+    tab: { display: 'flex', marginRight: '2vh', color: '#717171' },
 });
 
 export default WebHeader;

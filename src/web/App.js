@@ -80,6 +80,7 @@ const App = () => {
         title={location}
         goto={{ label: navText, onPress: handleNavigationButton }}
         username='Jontho but User'
+        tabs={[{ label: 'Dashboard', onPress: handleNavigationButton }, { label: 'Conversations', onPress: handleNavigationButton }]}
       />
 
       {/* Content */}
@@ -91,12 +92,26 @@ const App = () => {
               </Text>
               <View style={styles.container} dataSet={{ media: ids.container }}>
                 <WidgetContainer>
-                  {/* PUT DATA */}
-                  <AverageRating reviewStats={{}} />
+                  <AverageRating  
+                    reviewStats={[
+                      { reviewCount: 12, rating: 4.3 },
+                      { reviewCount: 13, rating: 4.8 },
+                    ]}
+                  />
                 </WidgetContainer>
                 <WidgetContainer useHorizontalSpacing={useHorizontalSpacing}>
-                  {/* PUT DATA */}
-                  <RatingsBySite reviewSites={[]} reviewStats={{}} />
+                  <RatingsBySite 
+                    reviewSites={[
+                      {
+                        id: 1,
+                        reviewSiteId: 1,
+                      },
+                    ]} 
+                    reviewStats={[
+                      { reviewCount: 12, rating: 4.3, reviewSiteId: 1 },
+                      { reviewCount: 13, rating: 4.8 },
+                    ]} 
+                  />
                 </WidgetContainer>
               </View>
 
