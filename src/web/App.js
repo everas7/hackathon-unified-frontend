@@ -7,11 +7,12 @@ import WebHeader from '../common/WebHeader';
 import CampaignStats from '../common/CampaignStats';
 import AverageRating from '../common/AverageRating';
 import RatingsBySite from '../common/RatingsBySite';
-import ConversationBubble from '../common/ConversationSummary';
+import ConversationBubble from '../common/ConversationBubble';
 import ConversationSummary from '../common/ConversationSummary';
 import conversations from '../data/conversations';
 import stats from '../data/stats';
 import Colors from '../constants/Colors';
+import { formatName  } from '../lib/Formatters';
 
 const window = Dimensions.get("window");
 
@@ -38,7 +39,7 @@ const Separator = () => {
 const App = () => {
   const [location, setLocation] = useState('Dashboard');
   const [navText, setNavText] = useState('Go to Conversations');
-  const [activeConvo, setActiveConvo] = useState([]);
+  const [activeConvo, setActiveConvo] = useState(null);
   const [contactName, setContactName] = useState('');
   const [useHorizontalSpacing, setUseHorizontalSpacing] = useState(window.width >= 768);
 
@@ -155,8 +156,8 @@ const App = () => {
                         message={messages[0]}
                         onSelect={() => {
                           setLocation('Single Conversation');
-                          setActiveConvo(messages);
-                          setContactName(`${contact.firstName} ${contact.lastName}`);
+                          setActiveConvo({contact, messages});
+                          setContactName(formatName(contact).name);
                         }}
                       />
                     )
@@ -175,10 +176,10 @@ const App = () => {
               <ScrollView
                 showsVerticalScrollIndicator={false}
               >
-                {/* <View style={{ flex: 1 }}>
+                <View style={{ flex: 1 }}>
                   <FlatList
                     contentContainerStyle={{ paddingHorizontal: 15, paddingVertical: 10 }}
-                    data={activeConvo}
+                    data={activeConvo.messages}
                     inverted={true}
                     renderItem={
                       ({ item: message }) => {
@@ -200,14 +201,14 @@ const App = () => {
                   />
 
                   <View style={styles.sender}>
-                    <View style={styles.text_input_container}>
-                      <Text style={styles.text_input}>Text message</Text>
+                        <View style={styles.text_input_container}>
+                            <Text style={styles.text_input}>Text message</Text>
+                        </View>
+                        <Text style={styles.send_button} >Send</Text>
                     </View>
-                    <Text style={styles.send_button} >Send</Text>
-                  </View>
 
-                  <SafeAreaView style={{ flex: 0, backgroundColor: Colors.gray_70 }} />
-                </View> */}
+                    <SafeAreaView style={{ flex: 0, backgroundColor: Colors.gray_70 }} />
+                </View>
               </ScrollView>
             )}
           </View>
@@ -259,6 +260,35 @@ const {ids, styles} = StyleSheet.create({
     '@media (min-width: 768px)': {
       flexDirection: 'row',
     },
+  },
+
+  sender: {
+    alignItems: 'center',
+    backgroundColor: Colors.gray_70,
+    flexDirection: 'row',
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+  },
+  send_button: {
+      color: Colors.gray_100,
+      fontSize: 16,
+      fontWeight: '500',
+      marginLeft: 10,
+  },
+  text_input: {
+      color: Colors.gray_100,
+      fontSize: 16,
+      fontWeight: '400',
+  },
+  text_input_container: {
+      backgroundColor: Colors.white,
+      borderColor: Colors.gray_80,
+      borderRadius: 10,
+      borderWidth: 2,
+      flex: 1,
+      height: 40,
+      justifyContent: 'center',
+      paddingLeft: 15,
   },
 });
 
