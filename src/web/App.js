@@ -1,15 +1,17 @@
 // App.js - WEB
 import React, { useCallback, useEffect, useState } from "react";
-import { Dimensions, View, Text, ScrollView, Button, FlatList, Pressable } from "react-native";
+import { Dimensions, View, Text, ScrollView, SafeAreaView, FlatList } from "react-native";
 import StyleSheet from 'react-native-media-query';
 
 import WebHeader from '../common/WebHeader';
 import CampaignStats from '../common/CampaignStats';
 import AverageRating from '../common/AverageRating';
 import RatingsBySite from '../common/RatingsBySite';
+import ConversationBubble from '../common/ConversationSummary';
 import ConversationSummary from '../common/ConversationSummary';
 import conversations from '../data/conversations';
 import stats from '../data/stats';
+import Colors from '../constants/Colors';
 
 const window = Dimensions.get("window");
 
@@ -36,6 +38,8 @@ const Separator = () => {
 const App = () => {
   const [location, setLocation] = useState('Dashboard');
   const [navText, setNavText] = useState('Go to Conversations');
+  const [activeConvo, setActiveConvo] = useState([]);
+  const [contactName, setContactName] = useState('');
   const [useHorizontalSpacing, setUseHorizontalSpacing] = useState(window.width >= 768);
 
   const handleNavigationButton = useCallback(() => {
@@ -151,6 +155,8 @@ const App = () => {
                         message={messages[0]}
                         onSelect={() => {
                           setLocation('Single Conversation');
+                          setActiveConvo(messages);
+                          setContactName(`${contact.firstName} ${contact.lastName}`);
                         }}
                       />
                     )
@@ -169,7 +175,39 @@ const App = () => {
               <ScrollView
                 showsVerticalScrollIndicator={false}
               >
-                {/* CHATS */}
+                {/* <View style={{ flex: 1 }}>
+                  <FlatList
+                    contentContainerStyle={{ paddingHorizontal: 15, paddingVertical: 10 }}
+                    data={activeConvo}
+                    inverted={true}
+                    renderItem={
+                      ({ item: message }) => {
+                        const orientation = message.documentType.includes('Interaction') ?
+                          'left' : 'right';
+                        const sender = orientation === 'right' ? 'You' : contactName
+
+                        return (
+                          <ConversationBubble
+                            key={message.timestamp}
+                            messageContent={message.messageBody}
+                            orientation={orientation}
+                            sender={sender}
+                            timestamp={message.timestamp}
+                          />
+                        );
+                      }
+                    }
+                  />
+
+                  <View style={styles.sender}>
+                    <View style={styles.text_input_container}>
+                      <Text style={styles.text_input}>Text message</Text>
+                    </View>
+                    <Text style={styles.send_button} >Send</Text>
+                  </View>
+
+                  <SafeAreaView style={{ flex: 0, backgroundColor: Colors.gray_70 }} />
+                </View> */}
               </ScrollView>
             )}
           </View>
