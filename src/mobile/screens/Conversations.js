@@ -14,7 +14,7 @@ import Colors from '../../constants/Colors';
 import conversations from '../../data/conversations';
 
 const Conversations = ({ onNavigate, onSelectConvo }) => {
-    console.log('conversations', conversations);
+
     return (
         <>
             <SafeAreaView style={{ flex: 0, backgroundColor: Colors.background_1 }} />

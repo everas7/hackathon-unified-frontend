@@ -1,4 +1,4 @@
-import React  from 'react';
+import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Button from './Button';
 import { ReviewSiteInfo, ScorableReviewSites } from '../constants/ReviewSites';
@@ -23,17 +23,22 @@ const calculateStats = ({ reviewSite, reviewStats }) => {
 };
 
 const RatingsBySite = ({ reviewSites, reviewStats }) => {
-    const availableReviewSites = reviewSites && reviewSites.map(rs => {
-        const reviewSite = ReviewSiteInfo[rs.reviewSiteId];
+    const availableReviewSites =
+        reviewSites &&
+        reviewSites
+            .reduce((a, rs) => {
+                const reviewSite = ReviewSiteInfo[rs.reviewSiteId];
 
-        if (!rs.removedAt && ScorableReviewSites.includes(rs.reviewSiteId)) {
-            return {
-                displayName: reviewSite.displayName,
-                id: rs.reviewSiteId,
-                name: reviewSite.name,
-            };
-        }
-    }).filter(a => a).sort((s1, s2) => s1.displayName.localeCompare(s2.displayName));
+                if (!rs.removedAt && ScorableReviewSites.includes(rs.reviewSiteId)) {
+                    a.push({
+                        displayName: reviewSite.displayName,
+                        id: rs.reviewSiteId,
+                        name: reviewSite.name,
+                    });
+                }
+                return a;
+            }, [])
+            .sort((s1, s2) => s1.displayName.localeCompare(s2.displayName));
 
     const askForRequest = () => {};
 
@@ -49,25 +54,22 @@ const RatingsBySite = ({ reviewSites, reviewStats }) => {
                 const { count, rating } = calculateStats({ reviewSite, reviewStats });
 
                 return (
-                    <TouchableOpacity
-                        key={index}
-                        style={styles.site_row}
-                    >
+                    <TouchableOpacity key={index} style={styles.site_row}>
                         <View style={[styles.site_segment, { flex: 2 }]}>
                             <View style={[styles.site_name_container, { flex: 2 }]}>
-                                <Text numberOfLines={1} style={styles.site_name} testID='site_name'>
+                                <Text numberOfLines={1} style={styles.site_name} testID="site_name">
                                     {reviewSite.displayName}
                                 </Text>
                             </View>
                             <View style={[styles.site_avg_container, { flex: 1 }]}>
-                                <Text style={styles.site_rating} testID='site_rating'>
+                                <Text style={styles.site_rating} testID="site_rating">
                                     {rating}
                                 </Text>
                                 <Text style={{ marginLeft: 5 }}>&#11088;</Text>
                             </View>
                         </View>
                         <View style={[styles.site_segment, { flex: 1 }]}>
-                            <Text style={styles.reviews_count} testID='site_count'>
+                            <Text style={styles.reviews_count} testID="site_count">
                                 {formatNumber({ number: count })}
                             </Text>
                             <Text style={styles.reviews_label}>Reviews</Text>
@@ -79,7 +81,7 @@ const RatingsBySite = ({ reviewSites, reviewStats }) => {
             <Button
                 containerStyle={{ marginTop: 25 }}
                 onPress={askForRequest}
-                title='Ask for a review'
+                title="Ask for a review"
             />
         </View>
     );

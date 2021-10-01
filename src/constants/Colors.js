@@ -66,7 +66,7 @@ const Texts = {
     text_3: '#666975',
 };
 
-export default {
+const colors =  {
     ...Backgrounds,
     ...ConversationBubbles,
     ...ConversationSources,
@@ -75,3 +75,5 @@ export default {
     ...Shimmer,
     ...Texts,
 };
+
+export default colors;
