@@ -17,8 +17,10 @@ const contactStats = {
     totalMarketableContacts: 2,
 };
 
-export default {
+const stats = {
     reviewStats,
     campaignStats,
     contactStats,
 };
+
+export default stats;

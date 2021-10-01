@@ -44,8 +44,8 @@ const { ids, styles } = StyleSheet.create({
         flexDirection: 'row',
         paddingTop: '2vh',
         paddingBottom: '2vh',
-        paddingLeft: '10vw',
-        paddingRight: '10vw',
+        paddingLeft: '15.2vw',
+        paddingRight: '15.2vw',
     },
     container: {
         backgroundColor: '#F0F0F0',

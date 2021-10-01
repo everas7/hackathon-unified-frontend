@@ -1,6 +1,6 @@
 // App.js - WEB
 import React, { useCallback, useEffect, useState } from "react";
-import { Dimensions, View, Text, ScrollView, SafeAreaView, FlatList } from "react-native";
+import { Dimensions, View, Text, ScrollView, FlatList } from "react-native";
 import StyleSheet from 'react-native-media-query';
 
 import WebHeader from '../common/WebHeader';
@@ -17,7 +17,7 @@ const window = Dimensions.get("window");
 
 const WidgetContainer = ({ useHorizontalSpacing, children }) => {
   return (
-    <View 
+    <View
       style={[
         styles.widgetDummy,
         useHorizontalSpacing ? { marginLeft: '20px' } : null
@@ -73,14 +73,14 @@ const App = () => {
         }
       }
     );
-  
+
     return () => subscription?.remove();
   });
 
   return (
     <View>
       {/* Header */}
-      <WebHeader 
+      <WebHeader
         title={location}
         goto={{ label: navText, onPress: handleNavigationButton }}
         username='Jontho but User'
@@ -96,7 +96,7 @@ const App = () => {
               </Text>
               <View style={styles.container} dataSet={{ media: ids.container }}>
                 <WidgetContainer>
-                  <AverageRating  
+                  <AverageRating
                     reviewStats={[
                       { reviewCount: 12, rating: 4.3 },
                       { reviewCount: 13, rating: 4.8 },
@@ -104,17 +104,17 @@ const App = () => {
                   />
                 </WidgetContainer>
                 <WidgetContainer useHorizontalSpacing={useHorizontalSpacing}>
-                  <RatingsBySite 
+                  <RatingsBySite
                     reviewSites={[
                       {
                         id: 1,
                         reviewSiteId: 1,
                       },
-                    ]} 
+                    ]}
                     reviewStats={[
                       { reviewCount: 12, rating: 4.3, reviewSiteId: 1 },
                       { reviewCount: 13, rating: 4.8 },
-                    ]} 
+                    ]}
                   />
                 </WidgetContainer>
               </View>
@@ -132,7 +132,7 @@ const App = () => {
               </Text>
               <View style={styles.container} dataSet={{ media: ids.container }}>
                 <WidgetContainer>
-                  <CampaignStats campaignStats={stats.campaignStats} /> 
+                  <CampaignStats campaignStats={stats.campaignStats} />
                 </WidgetContainer>
               </View>
           </View>
@@ -236,13 +236,13 @@ const {ids, styles} = StyleSheet.create({
     height: Dimensions.get('window').height,
     backgroundColor: '#f1f2f6',
     paddingTop: '10px',
-  }, 
+  },
 
   content: {
     width: '96%',
     margin: 'auto',
     flex: 1,
-  
+
     '@media (min-width: 768px)': {
       maxWidth: '1080px',
     },
