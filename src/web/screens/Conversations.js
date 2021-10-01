@@ -65,6 +65,7 @@ const Conversations = () => {
         </View>
         <View style={styles.conversationDetails}>
             <ConversationDetails
+                isWeb
                 conversation={conversations[conversationIndex]}
             />
         </View>

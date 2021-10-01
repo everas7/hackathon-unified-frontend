@@ -12,7 +12,7 @@ import ConversationBubble from '../../common/ConversationBubble';
 import Colors from '../../constants/Colors';
 import { formatName  } from '../../lib/Formatters';
 
-const ConversationDetails = ({ conversation, onNavigate }) => {
+const ConversationDetails = ({ conversation, onNavigate, isWeb = false }) => {
     let contactName = '';
     let messages = [];
 
@@ -30,13 +30,15 @@ const ConversationDetails = ({ conversation, onNavigate }) => {
             <View style={styles.container}>
                 <StatusBar backgroundColor={Colors.background_1} barStyle='dark-content' />
 
-                <View style={styles.header}>
-                    <TouchableOpacity onPress={onNavigate} >
-                        <Text style={styles.label_button}>
-                            {'<  Back'}
-                        </Text>
-                    </TouchableOpacity>
-                </View>
+                {!isWeb ?
+                    <View style={styles.header}>
+                        <TouchableOpacity onPress={onNavigate} >
+                            <Text style={styles.label_button}>
+                                {'<  Back'}
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                : null }
 
                 <View style={styles.title_container}>
                     <Text style={styles.title}>{contactName}</Text>
